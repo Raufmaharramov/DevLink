@@ -1,14 +1,18 @@
 const express = require("express");
 require("dotenv").config();
 require("./db/mongoose");
+const userRouter = require("./routes/api/users");
+const profileRouter = require("./routes/api/profile");
+const authRouter = require("./routes/api/auth");
+const postRouter = require("./routes/api/posts");
 const PORT = process.env.PORT;
 const app = express();
 
 app.use(express.json());
-app.use("/api/users", require("./routes/api/users"));
-app.use("/api/posts", require("./routes/api/posts"));
-app.use("/api/profile", require("./routes/api/profile"));
-app.use("/api/auth", require("./routes/api/auth"));
+app.use(userRouter);
+app.use(authRouter);
+app.use(postRouter);
+app.use(profileRouter);
 
 app.listen(PORT, () => {
   console.log("Server is running on port " + PORT);

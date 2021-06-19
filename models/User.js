@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -16,8 +15,8 @@ const UserSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    unique: true,
     required: true,
+    unique: true,
     lowercase: true,
     trim: true,
     validate(value) {
@@ -54,6 +53,27 @@ const UserSchema = new mongoose.Schema({
   ]
 });
 
+UserSchema.methods.toJSON = function () {
+  const user = this;
+  const userObject = user.toObject();
+  delete userObject.password;
+  delete userObject.tokens;
+  delete userObject.avatar;
+  return userObject;
+};
+
+UserSchema.statics.getByCredentials = async (email, password) => {
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new Error("Please authenticate!");
+  }
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    throw new Error("Please authenticate!");
+  }
+  return user;
+};
+
 UserSchema.methods.generateToken = async function () {
   const user = this;
   const token = jwt.sign({ _id: user._id.toString() }, process.env.JSONTOKEN, { expiresIn: "7 days" });
@@ -70,4 +90,4 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
-module.exports = User = mongoose.model("User", UserSchema);
+module.exports = User = mongoose.model("user", UserSchema);
