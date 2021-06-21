@@ -1,5 +1,5 @@
 /* eslint-disable default-case */
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Landing from "./components/layout/Landing";
@@ -12,7 +12,13 @@ import { useImmerReducer } from "use-immer";
 import "./App.css";
 function App() {
   const initialState = {
-    flashMessage: []
+    loggedIn: Boolean(localStorage.getItem("DevAppToken")),
+    flashMessage: [],
+    user: {
+      username: localStorage.getItem("DevAppUser"),
+      token: localStorage.getItem("DevAppToken"),
+      avatar: localStorage.getItem("DevAppAvatar")
+    }
   };
 
   function ourReducer(draft, action) {
@@ -20,10 +26,27 @@ function App() {
       case "flashMessage":
         draft.flashMessage.push(action.value);
         return;
+      case "login":
+        draft.loggedIn = true;
+        draft.user = action.value;
+        return;
     }
   }
 
   const [state, dispatch] = useImmerReducer(ourReducer, initialState);
+
+  useEffect(() => {
+    if (state.loggedIn) {
+      localStorage.setItem("DevAppAvatar", state.user.avatar);
+      localStorage.setItem("DevAppToken", state.user.token);
+      localStorage.setItem("DevAppUser", state.user.username);
+    } else {
+      localStorage.removeItem("DevAppAvatar");
+      localStorage.removeItem("DevAppToken");
+      localStorage.removeItem("DevAppUser");
+    }
+  }, [state.loggedIn]);
+
   return (
     <StateContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>

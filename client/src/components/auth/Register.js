@@ -5,7 +5,6 @@ import Axios from "axios";
 import { Link } from "react-router-dom";
 import { useImmerReducer } from "use-immer";
 import { CSSTransition } from "react-transition-group";
-
 import DispatchContext from "../../DispatchContext";
 
 const Register = () => {
@@ -83,9 +82,9 @@ const Register = () => {
       async function fetchResults() {
         try {
           const response = await Axios.post("/users", { name: state.name.value, email: state.email.value, password: state.password.value }, { cancelToken: ourRequest.token });
-          console.log(response.data);
+          appDispatch({ type: "login", value: response.data });
         } catch (e) {
-          console.error(e.message);
+          console.log(e.message);
         }
       }
       fetchResults();
