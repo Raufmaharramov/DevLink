@@ -1,14 +1,15 @@
-/* eslint-disable no-duplicate-case */
+/* eslint-disable no-fallthrough */
 /* eslint-disable default-case */
 import React, { Fragment, useContext, useState, useEffect } from "react";
 import Axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useImmerReducer } from "use-immer";
 import { CSSTransition } from "react-transition-group";
-import DispatchContext from "../../DispatchContext";
+import DispatchContext from "../DispatchContext";
 
 const Register = () => {
   const appDispatch = useContext(DispatchContext);
+  const [logIn, setLogIn] = useState(false);
 
   const initialState = {
     name: {
@@ -67,15 +68,6 @@ const Register = () => {
 
   const [state, dispatch] = useImmerReducer(ourReducer, initialState);
 
-  // useEffect(() => {
-  //   if (state.email.value) {
-  //     const delay = setTimeout(() => {
-  //       dispatch({ type: "emailAfterDelay" });
-  //     }, 800);
-  //     return () => clearTimeout(delay);
-  //   }
-  // }, [state.email.value]);
-
   useEffect(() => {
     if (state.submitCount) {
       const ourRequest = Axios.CancelToken.source();
@@ -83,6 +75,8 @@ const Register = () => {
         try {
           const response = await Axios.post("/users", { name: state.name.value, email: state.email.value, password: state.password.value }, { cancelToken: ourRequest.token });
           appDispatch({ type: "login", value: response.data });
+          appDispatch({ type: "flashMessage", value: "Congrats, Welcome to your new account!" });
+          setLogIn(true);
         } catch (e) {
           console.log(e.message);
         }
@@ -103,6 +97,10 @@ const Register = () => {
     dispatch({ type: "submitForm" });
   };
 
+  if (logIn) {
+    return <Redirect to="/dashboard" />;
+  }
+
   return (
     <Fragment>
       <h1 className="large text-primary">Sign Up</h1>
@@ -110,12 +108,6 @@ const Register = () => {
         <i className="fas fa-user"></i> Create Your Account
       </p>
       <form className="form" action="create-profile.html" onSubmit={handleSubmit}>
-        {/* <div className="form-group">
-          <input type="text" placeholder="Name" name="name" onChange={e => dispatch({ type: "nameImmediately", value: e.target.value })} />
-          <CSSTransition in={state.name.hasErrors} timeout={330} classNames="liveValidateMessage" unmountOnExit>
-            <div className="alert alert-danger small liveValidateMessage">{state.name.message}</div>
-          </CSSTransition>
-        </div> */}
         <div className="form-group">
           <label htmlFor="username-register" className="text-muted mb-1">
             <small>Username</small>

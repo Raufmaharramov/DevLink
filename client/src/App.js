@@ -1,10 +1,10 @@
 /* eslint-disable default-case */
 import React, { Fragment, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Navbar from "./components/layout/Navbar";
-import Landing from "./components/layout/Landing";
-import Login from "./components/auth/Login";
-import Register from "./components/auth/Register";
+import Navbar from "./components/Navbar";
+import Landing from "./components/Landing";
+import Login from "./components/Login";
+import Register from "./components/Register";
 import StateContext from "./StateContext";
 import DispatchContext from "./DispatchContext";
 import FlashMessages from "./components/FlashMessages";
@@ -23,12 +23,15 @@ function App() {
 
   function ourReducer(draft, action) {
     switch (action.type) {
-      case "flashMessage":
-        draft.flashMessage.push(action.value);
-        return;
       case "login":
         draft.loggedIn = true;
         draft.user = action.value;
+        return;
+      case "flashMessage":
+        draft.flashMessage.push(action.value);
+        return;
+      case "logout":
+        draft.loggedIn = false;
         return;
     }
   }
@@ -37,9 +40,9 @@ function App() {
 
   useEffect(() => {
     if (state.loggedIn) {
-      localStorage.setItem("DevAppAvatar", state.user.avatar);
-      localStorage.setItem("DevAppToken", state.user.token);
       localStorage.setItem("DevAppUser", state.user.username);
+      localStorage.setItem("DevAppToken", state.user.token);
+      localStorage.setItem("DevAppAvatar", state.user.avatar);
     } else {
       localStorage.removeItem("DevAppAvatar");
       localStorage.removeItem("DevAppToken");
