@@ -12,12 +12,6 @@ const Login = () => {
 
   const onSubmit = async e => {
     e.preventDefault();
-    try {
-      const response = await Axios.post("/users", { email, password });
-      console.log(response.data);
-    } catch (error) {
-      console.error(error.response.data);
-    }
   };
 
   const onChange = e => setData({ ...data, [e.target.name]: e.target.value });
