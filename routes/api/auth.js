@@ -8,9 +8,9 @@ router.post("/auth", async (req, res) => {
   try {
     const user = await User.getByCredentials(req.body.email, req.body.password);
     const token = await user.generateToken();
-    res.send({ user, token });
+    res.send({ token, username: user.name, avatar: user.avatar });
   } catch (e) {
-    res.status(400).send(e);
+    res.status(400).send(e.message);
   }
 });
 

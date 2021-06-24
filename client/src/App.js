@@ -8,8 +8,11 @@ import Register from "./components/Register";
 import StateContext from "./StateContext";
 import DispatchContext from "./DispatchContext";
 import FlashMessages from "./components/FlashMessages";
+import Dashboard from "./components/Dashboard";
 import { useImmerReducer } from "use-immer";
 import "./App.css";
+import CreateProfile from "./components/CreateProfile";
+import EditProfile from "./components/EditProfile";
 function App() {
   const initialState = {
     loggedIn: Boolean(localStorage.getItem("DevAppToken")),
@@ -18,20 +21,31 @@ function App() {
       username: localStorage.getItem("DevAppUser"),
       token: localStorage.getItem("DevAppToken"),
       avatar: localStorage.getItem("DevAppAvatar")
-    }
+    },
+    profile: null,
+    loading: true
   };
 
   function ourReducer(draft, action) {
     switch (action.type) {
       case "login":
         draft.loggedIn = true;
-        draft.user = action.value;
+        draft.user = action.data;
         return;
       case "flashMessage":
         draft.flashMessage.push(action.value);
         return;
       case "logout":
         draft.loggedIn = false;
+        return;
+      case "profile":
+        draft.profile = action.data;
+        return;
+      case "isloading":
+        draft.loading = true;
+        return;
+      case "notloading":
+        draft.loading = false;
         return;
     }
   }
@@ -62,6 +76,9 @@ function App() {
               <Switch>
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
+                <Route exact path="/dashboard" component={Dashboard} />
+                <Route exact path="/create-profile" component={CreateProfile} />
+                <Route exact path="/edit-profile" component={EditProfile} />
               </Switch>
             </section>
           </Fragment>

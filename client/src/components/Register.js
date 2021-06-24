@@ -6,10 +6,11 @@ import { Link, Redirect } from "react-router-dom";
 import { useImmerReducer } from "use-immer";
 import { CSSTransition } from "react-transition-group";
 import DispatchContext from "../DispatchContext";
+import StateContext from "../StateContext";
 
 const Register = () => {
   const appDispatch = useContext(DispatchContext);
-  const [logIn, setLogIn] = useState(false);
+  const appState = useContext(StateContext);
 
   const initialState = {
     name: {
@@ -74,9 +75,8 @@ const Register = () => {
       async function fetchResults() {
         try {
           const response = await Axios.post("/users", { name: state.name.value, email: state.email.value, password: state.password.value }, { cancelToken: ourRequest.token });
-          appDispatch({ type: "login", value: response.data });
+          appDispatch({ type: "login", data: response.data });
           appDispatch({ type: "flashMessage", value: "Congrats, Welcome to your new account!" });
-          setLogIn(true);
         } catch (e) {
           console.log(e.message);
         }
@@ -97,7 +97,7 @@ const Register = () => {
     dispatch({ type: "submitForm" });
   };
 
-  if (logIn) {
+  if (appState.loggedIn) {
     return <Redirect to="/dashboard" />;
   }
 

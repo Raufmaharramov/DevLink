@@ -1,7 +1,12 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, Redirect } from "react-router-dom";
+import StateContext from "../StateContext";
 
 const Landing = () => {
+  const appState = useContext(StateContext);
+  if (appState.loggedIn) {
+    return <Redirect to="/dashboard" />;
+  }
   return (
     <section className="landing">
       <div className="dark-overlay">

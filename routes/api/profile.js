@@ -9,7 +9,7 @@ router.get("/profile/me", auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({ user: req.user.id }).populate("user", ["name", "avatar"]);
     if (!profile) {
-      return res.status(400).send("No profile match");
+      return res.status(400).send({ mesg: "No profile match" });
     }
     res.send(profile);
   } catch (e) {
@@ -42,7 +42,7 @@ router.get("/profile", async (req, res) => {
   }
 });
 
-router.post("/profile/me", auth, async (req, res) => {
+router.post("/profile", auth, async (req, res) => {
   const profileFields = {};
   const { company, website, location, bio, status, githubusername, skills, facebook, instagram, twitter, linkedin, youtube } = req.body;
 
@@ -63,7 +63,7 @@ router.post("/profile/me", auth, async (req, res) => {
   if (youtube) profileFields.social.youtube = youtube;
 
   try {
-    let profile = await Profile.findOne({ user: req.user.id });
+    let profile = await Profile.findOne({ user: req.user.id }).populate("user", ["name", "avatar"]);
 
     if (!profile) {
       profile = new Profile(profileFields);
