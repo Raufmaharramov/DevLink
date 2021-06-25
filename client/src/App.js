@@ -1,6 +1,9 @@
 /* eslint-disable default-case */
+// packages
 import React, { Fragment, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useImmerReducer } from "use-immer";
+// Components
 import Navbar from "./components/Navbar";
 import Landing from "./components/Landing";
 import Login from "./components/Login";
@@ -9,10 +12,12 @@ import StateContext from "./StateContext";
 import DispatchContext from "./DispatchContext";
 import FlashMessages from "./components/FlashMessages";
 import Dashboard from "./components/Dashboard";
-import { useImmerReducer } from "use-immer";
-import "./App.css";
 import CreateProfile from "./components/CreateProfile";
 import EditProfile from "./components/EditProfile";
+import AddExperience from "./components/AddExperience";
+import AddEducation from "./components/AddEducation";
+import "./App.css";
+
 function App() {
   const initialState = {
     loggedIn: Boolean(localStorage.getItem("DevAppToken")),
@@ -40,6 +45,9 @@ function App() {
         return;
       case "profile":
         draft.profile = action.data;
+        return;
+      case "noprofile":
+        draft.profile = null;
         return;
       case "isloading":
         draft.loading = true;
@@ -79,6 +87,8 @@ function App() {
                 <Route exact path="/dashboard" component={Dashboard} />
                 <Route exact path="/create-profile" component={CreateProfile} />
                 <Route exact path="/edit-profile" component={EditProfile} />
+                <Route exact path="/add-experience" component={AddExperience} />
+                <Route exact path="/add-education" component={AddEducation} />
               </Switch>
             </section>
           </Fragment>

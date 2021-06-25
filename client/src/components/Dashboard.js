@@ -2,18 +2,16 @@ import React, { Fragment, useContext, useEffect } from "react";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
-import { useImmer } from "use-immer";
 import StateContext from "../StateContext";
 import DispatchContext from "../DispatchContext";
 import { Spinner } from "reactstrap";
 import DashboardOptions from "./DashboardOptions";
+import Experience from "./Experience";
+import Education from "./Education";
 
 const Dashboard = props => {
   const appState = useContext(StateContext);
   const appDispatch = useContext(DispatchContext);
-  const [state, setState] = useImmer({
-    profiles: []
-  });
 
   useEffect(() => {
     async function profile() {
@@ -23,14 +21,32 @@ const Dashboard = props => {
             "x-auth-token": appState.user.token
           }
         });
-        // console.log(response.data);
         appDispatch({ type: "profile", data: response.data });
+        if (!appState.loggedIn) props.history.push("./login");
       } catch (error) {
         console.log(error.message);
       }
     }
     profile();
   }, []);
+
+  const deleteAccount = async () => {
+    if (window.confirm("Are you sure to Delete the account? This can Not be undone!")) {
+      try {
+        const response = await Axios.delete("/profile", {
+          headers: {
+            "x-auth-token": appState.user.token
+          }
+        });
+        appDispatch({ type: "noprofile" });
+        appDispatch({ type: "logout" });
+        props.history.push("/register");
+        appDispatch({ type: "flashMessage", value: "Your account has been permanently deleted!" });
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  };
 
   return appState.profile === null ? (
     <Spinner /> && (
@@ -43,6 +59,12 @@ const Dashboard = props => {
         <Link to="/create-profile" className="btn btn-primary my-1">
           Create Profile
         </Link>
+        <div className="my-2">
+          <button className="btn btn-danger" onClick={deleteAccount}>
+            <i className="fas fa-user-minus"></i>
+            Delete Account
+          </button>
+        </div>
       </Fragment>
     )
   ) : (
@@ -53,7 +75,15 @@ const Dashboard = props => {
       </p>
       <Fragment>
         <DashboardOptions />
+        <Experience />
+        <Education />
       </Fragment>
+      <div className="my-2">
+        <button className="btn btn-danger" onClick={deleteAccount}>
+          <i className="fas fa-user-minus"></i>
+          Delete Account
+        </button>
+      </div>
     </Fragment>
   );
 };

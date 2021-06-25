@@ -28,20 +28,6 @@ const EditProfile = props => {
   const [socialInputs, setSocialInputs] = useState(false);
 
   useEffect(() => {
-    async function myprofile() {
-      try {
-        const response = await Axios.get("/profile/me", {
-          headers: {
-            "x-auth-token": appState.user.token
-          }
-        });
-        appDispatch({ type: "profile", data: response.data });
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
-    myprofile();
-
     setFormData({
       company: !appState.profile.company ? "" : appState.profile.company,
       website: !appState.profile.website ? "" : appState.profile.website,
