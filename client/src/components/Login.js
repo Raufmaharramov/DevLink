@@ -4,7 +4,7 @@ import { Link, Redirect } from "react-router-dom";
 import DispatchContext from "../DispatchContext";
 import StateContext from "../StateContext";
 
-const Register = () => {
+const Login = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const appDispatch = useContext(DispatchContext);
@@ -54,4 +54,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

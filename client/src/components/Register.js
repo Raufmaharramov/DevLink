@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-fallthrough */
 /* eslint-disable default-case */
-import React, { Fragment, useContext, useState, useEffect } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import Axios from "axios";
 import { Link, Redirect } from "react-router-dom";
 import { useImmerReducer } from "use-immer";
@@ -118,8 +119,10 @@ const Register = () => {
           </CSSTransition>
         </div>
         <div className="form-group">
-          <input type="email" placeholder="Email Address" name="email" onChange={e => dispatch({ type: "emailImmediately", value: e.target.value })} />
-          <small className="form-text">This site uses Gravatar so if you want a profile image, use a Gravatar email</small>
+          <label htmlFor="username-register" className="text-muted mb-1">
+            <small>Email</small>
+          </label>
+          <input className="form-control" type="email" placeholder="Email Address" name="email" onChange={e => dispatch({ type: "emailImmediately", value: e.target.value })} />
           <CSSTransition in={state.email.hasErrors} timeout={330} classNames="liveValidateMessage" unmountOnExit>
             <div className="alert alert-danger small liveValidateMessage">{state.email.message}</div>
           </CSSTransition>

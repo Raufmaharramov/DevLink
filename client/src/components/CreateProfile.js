@@ -3,7 +3,6 @@ import Axios from "axios";
 import { withRouter } from "react-router";
 import StateContext from "../StateContext";
 import DispatchContext from "../DispatchContext";
-import DashboardOptions from "./DashboardOptions";
 
 const CreateProfile = props => {
   const appState = useContext(StateContext);

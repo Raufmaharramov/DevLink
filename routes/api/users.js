@@ -14,7 +14,7 @@ router.post("/users", async (req, res) => {
     });
     await user.save();
     const token = await user.generateToken();
-    res.status(201).send({ token, username: user.name, avatar: user.avatar });
+    res.status(201).send({ token, username: user.name, avatar: user.avatar, id: user.id });
   } catch (e) {
     res.status(400).send(e.message);
   }

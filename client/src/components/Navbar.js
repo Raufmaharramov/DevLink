@@ -30,6 +30,9 @@ export const Navbar = props => {
         {appState.loggedIn ? (
           <ul>
             <li>
+              <Link to="/profiles">Developers</Link>
+            </li>
+            <li>
               <Link to="/dashboard">
                 <i className="fas fa-user" />
                 <span className="hide-sm">Dashboard</span>
@@ -44,7 +47,7 @@ export const Navbar = props => {
         ) : (
           <ul>
             <li>
-              <Link to="#!">Developers</Link>
+              <Link to="/profiles">Developers</Link>
             </li>
             <li>
               <Link to="/register">Register</Link>

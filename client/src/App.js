@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable default-case */
 // packages
 import React, { Fragment, useEffect } from "react";
@@ -16,6 +17,8 @@ import CreateProfile from "./components/CreateProfile";
 import EditProfile from "./components/EditProfile";
 import AddExperience from "./components/AddExperience";
 import AddEducation from "./components/AddEducation";
+import Profiles from "./components/Profiles";
+import Profile from "./components/Profile";
 import "./App.css";
 
 function App() {
@@ -25,14 +28,20 @@ function App() {
     user: {
       username: localStorage.getItem("DevAppUser"),
       token: localStorage.getItem("DevAppToken"),
-      avatar: localStorage.getItem("DevAppAvatar")
+      avatar: localStorage.getItem("DevAppAvatar"),
+      id: localStorage.getItem("DevAppId")
     },
     profile: null,
+    profiles: [],
+    repos: null,
     loading: true
   };
 
   function ourReducer(draft, action) {
     switch (action.type) {
+      case "id":
+        draft.id = action.data;
+        return;
       case "login":
         draft.loggedIn = true;
         draft.user = action.data;
@@ -49,11 +58,17 @@ function App() {
       case "noprofile":
         draft.profile = null;
         return;
+      case "profiles":
+        draft.profiles = action.data;
+        return;
       case "isloading":
         draft.loading = true;
         return;
       case "notloading":
         draft.loading = false;
+        return;
+      case "gotrepos":
+        draft.repos = action.data;
         return;
     }
   }
@@ -65,10 +80,12 @@ function App() {
       localStorage.setItem("DevAppUser", state.user.username);
       localStorage.setItem("DevAppToken", state.user.token);
       localStorage.setItem("DevAppAvatar", state.user.avatar);
+      localStorage.setItem("DevAppId", state.user.id);
     } else {
       localStorage.removeItem("DevAppAvatar");
       localStorage.removeItem("DevAppToken");
       localStorage.removeItem("DevAppUser");
+      localStorage.removeItem("DevAppId");
     }
   }, [state.loggedIn]);
 
@@ -85,6 +102,8 @@ function App() {
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/dashboard" component={Dashboard} />
+                <Route exact path="/profiles" component={Profiles} />
+                <Route exact path="/profile/:user_id" component={Profile} />
                 <Route exact path="/create-profile" component={CreateProfile} />
                 <Route exact path="/edit-profile" component={EditProfile} />
                 <Route exact path="/add-experience" component={AddExperience} />

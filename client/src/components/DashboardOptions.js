@@ -1,11 +1,6 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
-import DispatchContext from "../DispatchContext";
-import StateContext from "../StateContext";
-import EditProfile from "./EditProfile";
 const DashboardOptions = () => {
-  const appDispatch = useContext(DispatchContext);
-
   return (
     <Fragment>
       <div className="dash-buttons">
