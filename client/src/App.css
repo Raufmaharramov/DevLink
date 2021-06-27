@@ -143,6 +143,12 @@ img {
   font-weight: 500;
 } */
 
+.small-header-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+}
+
 .btn {
   display: inline-block;
   background: var(--light-color);
@@ -252,6 +258,16 @@ img {
 }
 
 /* Flash Alert*/
+
+.my-group {
+  position: relative;
+  margin: 2.5rem 0;
+}
+
+.form-control {
+  border: solid 2px rgba(0, 0, 0, 0.7);
+  border-radius: 13px;
+}
 
 /* Forms */
 .form .form-group {

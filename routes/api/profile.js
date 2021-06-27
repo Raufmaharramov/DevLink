@@ -8,7 +8,7 @@ const auth = require("../../middleware/auth");
 
 router.get("/profile/me", auth, async (req, res) => {
   try {
-    const profile = await Profile.findOne({ user: req.user.id }).populate("user", ["name", "avatar"]);
+    const profile = await Profile.findOne({ user: req.user.id }).populate("user", ["name", "avatar", "age"]);
     if (!profile) {
       return res.status(400).send({ mesg: "No profile match" });
     }

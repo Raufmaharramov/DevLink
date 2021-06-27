@@ -15,7 +15,7 @@ export const Navbar = props => {
 
   return (
     <Fragment>
-      <nav className="navbar bg-dark">
+      <nav className="navbar navbar-expand-md navbar-light bg-dark">
         <h1>
           {appState.loggedIn ? (
             <Link to="/dashboard">
@@ -28,22 +28,32 @@ export const Navbar = props => {
           )}
         </h1>
         {appState.loggedIn ? (
-          <ul>
-            <li>
-              <Link to="/profiles">Developers</Link>
-            </li>
-            <li>
-              <Link to="/dashboard">
-                <i className="fas fa-user" />
-                <span className="hide-sm">Dashboard</span>
-              </Link>
-            </li>
-            <li>
-              <Link onClick={logout} to="#!">
-                <i className="fas fa-sign-out-alt"></i> <span className="hide-sm">LogOut</span>
-              </Link>
-            </li>
-          </ul>
+          <div className="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul className="navbar-nav">
+              <li className="nav-item active">
+                <Link to="/profiles">Developers</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/posts">Posts</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/dashboard">
+                  <i className="fas fa-user" /> <span className="hide-sm">Dashboard</span>
+                </Link>
+              </li>
+              <li className="nav-item dropdown">
+                <img className="small-header-avatar" src={appState.user.avatar} alt="" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" />
+                <div className="dropdown-menu bg-dark" aria-labelledby="navbarDropdownMenuLink">
+                  <Link className="dropdown-item" to="/account">
+                    Account
+                  </Link>
+                  <Link onClick={logout} to="#!">
+                    <i className="fas fa-sign-out-alt"></i> <span className="hide-sm">LogOut</span>
+                  </Link>
+                </div>
+              </li>
+            </ul>
+          </div>
         ) : (
           <ul>
             <li>
