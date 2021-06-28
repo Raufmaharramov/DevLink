@@ -52,7 +52,7 @@ router.delete("/post/:id", auth, async (req, res) => {
     }
 
     if (post.user.toString() !== req.user.id) {
-      res.status(401).send("Authentication failed!");
+      res.status(401).send();
     }
     await post.remove();
     res.send(post);

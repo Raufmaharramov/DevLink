@@ -36,13 +36,26 @@ const PostItem = props => {
     }
   };
 
+  const deletePost = async id => {
+    try {
+      await Axios.delete(`/post/${id}`, {
+        headers: {
+          "x-auth-token": appState.user.token
+        }
+      });
+      appDispatch({ type: "postDeleted", data: id });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   return (
     <div className="post bg-white p-1 my-1">
       <div>
-        <a href="profile.html">
+        <Link to={`/profile/${user}`}>
           <img className="round-img" src={avatar} alt="" />
           <h4>{name}</h4>
-        </a>
+        </Link>
       </div>
       <div>
         <p className="my-1">{text}</p>
@@ -59,8 +72,8 @@ const PostItem = props => {
         <Link to={`/post/${_id}`} className="btn btn-primary">
           Discussion <span>{comments.length > 0 && <span className="comment-count">{comments.length}</span>}</span>
         </Link>
-        {!appState.loading && appState.user.id === user && (
-          <button type="button" className="btn btn-danger">
+        {appState.user.id === user && (
+          <button onClick={e => deletePost(_id)} type="button" className="btn btn-danger">
             <i className="fas fa-times"></i>
           </button>
         )}

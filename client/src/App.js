@@ -21,6 +21,7 @@ import Profiles from "./components/Profiles";
 import Profile from "./components/Profile";
 import Account from "./components/Account";
 import Posts from "./components/Posts";
+import Post from "./components/Post";
 import "./App.css";
 
 function App() {
@@ -72,6 +73,12 @@ function App() {
       case "posts":
         draft.posts = action.data;
         return;
+      case "posted":
+        draft.posts = [action.data, ...draft.posts];
+        return;
+      case "postDeleted":
+        draft.posts = draft.posts.filter(post => post._id !== action.data);
+        return;
       case "like":
         draft.posts.map(post => (post._id === action.data.id ? (post.likes = action.data.likes) : post));
         return;
@@ -83,6 +90,12 @@ function App() {
         return;
       case "gotrepos":
         draft.repos = action.data;
+        return;
+      case "nocomment":
+        draft.post = { ...draft.post, comments: draft.post.comments.filter(com => com._id !== action.data) };
+        return;
+      case "comment":
+        draft.post = { ...draft.post, comments: action.data };
         return;
     }
   }
@@ -119,6 +132,7 @@ function App() {
                 <Route exact path="/dashboard" component={Dashboard} />
                 <Route exact path="/profiles" component={Profiles} />
                 <Route exact path="/posts" component={Posts} />
+                <Route exact path="/post/:id" component={Post} />
                 <Route exact path="/profile/:user_id" component={Profile} />
                 <Route exact path="/create-profile" component={CreateProfile} />
                 <Route exact path="/edit-profile" component={EditProfile} />

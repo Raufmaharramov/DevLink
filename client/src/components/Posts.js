@@ -4,6 +4,7 @@ import Axios from "axios";
 import DispatchContext from "../DispatchContext";
 import StateContext from "../StateContext";
 import PostItem from "./PostItem";
+import AddPost from "./AddPost";
 import { withRouter } from "react-router";
 import Spinner from "./Spinner";
 
@@ -32,6 +33,7 @@ const Posts = props => {
       <p className="lead">
         <i className="fas fa-user" /> Welcome to the community
       </p>
+      <AddPost />
       <div className="posts">
         {appState.posts.map((post, index) => (
           <PostItem key={index} post={post} />
