@@ -36,7 +36,10 @@ const Login = () => {
       </p>
       <form className="form" action="create-profile.html" onSubmit={e => handleSubmit(e)}>
         <div className="form-group">
-          <input type="email" placeholder="Email Address" name="email" onChange={e => setEmail(e.target.value)} />
+          <label htmlFor="email-register" className="text-muted mb-1">
+            <small>Email</small>
+          </label>
+          <input className="form-control" type="email" placeholder="Email Address" name="email" onChange={e => setEmail(e.target.value)} />
           <small className="form-text">This site uses Gravatar so if you want a profile image, use a Gravatar email</small>
         </div>
         <div className="form-group">

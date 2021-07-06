@@ -123,6 +123,7 @@ const Register = () => {
             <small>Email</small>
           </label>
           <input className="form-control" type="email" placeholder="Email Address" name="email" onChange={e => dispatch({ type: "emailImmediately", value: e.target.value })} />
+          <small>This site uses Gravatar so if you want a profile image, use a Gravatar email</small>
           <CSSTransition in={state.email.hasErrors} timeout={330} classNames="liveValidateMessage" unmountOnExit>
             <div className="alert alert-danger small liveValidateMessage">{state.email.message}</div>
           </CSSTransition>
