@@ -22,6 +22,7 @@ import Profile from "./components/Profile";
 import Account from "./components/Account";
 import Posts from "./components/Posts";
 import Post from "./components/Post";
+import PrivateRoute from "./components/PrivateRoute";
 import "./App.css";
 
 function App() {
@@ -128,16 +129,16 @@ function App() {
               <Switch>
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
-                <Route exact path="/account" component={Account} />
-                <Route exact path="/dashboard" component={Dashboard} />
+                <PrivateRoute exact path="/account" component={Account} />
+                <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 <Route exact path="/profiles" component={Profiles} />
-                <Route exact path="/posts" component={Posts} />
-                <Route exact path="/post/:id" component={Post} />
+                <PrivateRoute exact path="/posts" component={Posts} />
+                <PrivateRoute exact path="/post/:id" component={Post} />
                 <Route exact path="/profile/:user_id" component={Profile} />
-                <Route exact path="/create-profile" component={CreateProfile} />
-                <Route exact path="/edit-profile" component={EditProfile} />
-                <Route exact path="/add-experience" component={AddExperience} />
-                <Route exact path="/add-education" component={AddEducation} />
+                <PrivateRoute exact path="/create-profile" component={CreateProfile} />
+                <PrivateRoute exact path="/edit-profile" component={EditProfile} />
+                <PrivateRoute exact path="/add-experience" component={AddExperience} />
+                <PrivateRoute exact path="/add-education" component={AddEducation} />
               </Switch>
             </section>
           </Fragment>
