@@ -25,7 +25,7 @@ export const Navbar = props => {
                 <span className="navbar-toggler-icon"></span>
               </button>
               <Link className="navbar-brand text-white navbrand" to="/dashboard">
-                <i className="fas fa-code"></i> DevConnector
+                <i className="fas fa-code"></i> DevLink
               </Link>
               <div className="collapse navbar-collapse" id="navbarCollapse">
                 <ul className="navbar-nav ml-auto">
@@ -66,7 +66,7 @@ export const Navbar = props => {
                 <span className="navbar-toggler-icon"></span>
               </button>
               <Link className="navbar-brand text-white navbrand" to="/">
-                <i className="fas fa-code"></i> DevConnector
+                <i className="fas fa-code"></i> DevLink
               </Link>
               <div className="collapse navbar-collapse" id="navbarCollapse">
                 <ul className="navbar-nav ml-auto">
