@@ -14,7 +14,7 @@ app.use(authRouter);
 app.use(postRouter);
 app.use(profileRouter);
 
-//Serve static assets in production
+// Serve static assets in production
 if (process.env.NODE_ENV === "production") {
   // Set the static folder
   app.use(express.static("client/build"));
