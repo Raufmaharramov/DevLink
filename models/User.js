@@ -90,6 +90,8 @@ UserSchema.methods.generateToken = async function () {
   return token;
 };
 
+// this commented line is unnecessary
+
 UserSchema.pre("save", async function (next) {
   const user = this;
   if (user.isModified("password")) {
